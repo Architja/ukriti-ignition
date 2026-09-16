@@ -55,15 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Fix for Mobile/Safari Back Button (BFCache)
 // When hitting the native 'Back' button, browsers restore the exact frozen HTML state.
-// This global listener forces the animations to reset the exact moment the page is shown again.
+// If the page was restored from cache (event.persisted), we force a lightning-fast hard reload to reset all animations.
 window.addEventListener('pageshow', function (event) {
-  const uiLayerObj = document.querySelector('.ui-layer');
-  const splitContainerObj = document.querySelector('.split-container');
-  
-  if (uiLayerObj) {
-    uiLayerObj.classList.remove('fade-out');
-  }
-  if (splitContainerObj) {
-    splitContainerObj.classList.remove('doors-open');
+  if (event.persisted) {
+    window.location.reload();
+  } else {
+    // Fallback: manually rip off classes just in case
+    const uiLayerObj = document.querySelector('.ui-layer');
+    const splitContainerObj = document.querySelector('.split-container');
+    if (uiLayerObj) uiLayerObj.classList.remove('fade-out');
+    if (splitContainerObj) splitContainerObj.classList.remove('doors-open');
   }
 });
