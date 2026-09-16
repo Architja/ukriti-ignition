@@ -45,146 +45,100 @@
       pointer-events: none;
     }
 
-    /* ========== NEWSPAPER FLIP INTRO ========== */
-    .newspaper-intro {
+    /* ========== REALISTIC PAGE TURN INTRO ========== */
+    .newspaper-intro-bg {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
       background: #07090A;
+      z-index: 999;
+      animation: fadeOutBg 0.8s 1.8s forwards;
+      pointer-events: none;
+    }
+
+    .newspaper-intro {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      perspective: 1200px;
-      animation: introFadeOut 0.5s 3s ease forwards;
+      perspective: 2500px; /* Strong 3D depth */
+      pointer-events: none;
     }
 
-    .flip-newspaper {
-      width: 300px;
-      height: 400px;
-      position: relative;
-      transform-style: preserve-3d;
-      animation: newspaperFlip 3s ease-in-out forwards;
-    }
-
-    .flip-page {
+    .newspaper-cover {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border: 3px solid #8B7355;
-      box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
-      padding: 18px;
-      font-family: 'VT323', monospace;
-      color: #1A1A1A;
-    }
-
-    /* Front of newspaper */
-    .flip-front {
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       background: #F5F0E0;
-      z-index: 2;
-    }
-
-    /* Back of newspaper (seen during flip) */
-    .flip-back {
-      background: #E8E0D0;
-      transform: rotateY(180deg);
-    }
-
-    .flip-header {
-      text-align: center;
-      border-bottom: 3px double #333;
-      padding-bottom: 8px;
-      margin-bottom: 12px;
-    }
-
-    .flip-name {
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 0.12em;
-    }
-
-    .flip-date {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 2px;
-    }
-
-    .flip-headline {
-      font-size: 1.5rem;
-      font-weight: bold;
-      text-align: center;
-      margin: 15px 0;
-      line-height: 1.2;
-      color: #222;
-    }
-
-    .flip-subhead {
-      font-size: 1rem;
-      text-align: center;
-      color: #555;
-      margin-bottom: 12px;
-      font-style: italic;
-    }
-
-    .flip-body {
+      color: #1A1A1A;
+      font-family: 'VT323', monospace;
+      /* The 'spine' is on the left edge */
+      transform-origin: left center;
+      border-left: 20px solid #C8C0B0;
+      box-shadow: inset 10px 0 20px rgba(0,0,0,0.1), 30px 0 50px rgba(0,0,0,0.8);
+      animation: openNewspaper 2.2s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-top: 12px;
+      align-items: center;
+      justify-content: center;
+      padding: 5vw;
+      overflow: hidden;
     }
 
-    .flip-line {
-      height: 3px;
-      background: #BBB;
-      border-radius: 1px;
+    .cover-header {
+      text-align: center;
+      border-bottom: 6px double #333;
+      padding-bottom: 15px;
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 800px;
     }
 
-    .flip-divider {
-      height: 1px;
-      background: #999;
-      margin: 8px 0;
+    .cover-name {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      line-height: 1;
     }
 
-    /* The flip animation: pages turning open */
-    @keyframes newspaperFlip {
-      0% {
-        transform: scale(0.3) rotateY(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-        transform: scale(0.5) rotateY(0deg);
-      }
-      30% {
-        transform: scale(0.8) rotateY(0deg);
-      }
-      /* First page flip */
-      45% {
-        transform: scale(0.9) rotateY(-160deg);
-      }
-      55% {
-        transform: scale(0.95) rotateY(-180deg);
-      }
-      /* Second page flip */
-      70% {
-        transform: scale(1) rotateY(-340deg);
-      }
-      80% {
-        transform: scale(1.02) rotateY(-360deg);
-      }
-      /* Settle */
-      90% {
-        transform: scale(1.01) rotateY(-360deg);
-      }
-      100% {
-        transform: scale(1) rotateY(-360deg);
-      }
+    .cover-date {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      color: #555;
+      margin-top: 10px;
     }
 
-    @keyframes introFadeOut {
+    .cover-headline {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      max-width: 800px;
+    }
+
+    .cover-text-lines {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .cover-line {
+      height: 6px;
+      background: #AAA;
+      border-radius: 2px;
+    }
+
+    @keyframes openNewspaper {
+      0% { transform: rotateY(0deg); opacity: 1; }
+      50% { opacity: 1; }
+      100% { transform: rotateY(-110deg); opacity: 0; display: none; }
+    }
+
+    @keyframes fadeOutBg {
       0% { opacity: 1; }
-      100% { opacity: 0; pointer-events: none; visibility: hidden; }
+      100% { opacity: 0; visibility: hidden; }
     }
 
     /* ========== NEWS TICKER ========== */
@@ -350,38 +304,22 @@
 <body>
 
   <!-- NEWSPAPER PAGE-FLIP INTRO -->
+  <div class="newspaper-intro-bg"></div>
   <div class="newspaper-intro">
-    <div class="flip-newspaper">
-      <div class="flip-page flip-front">
-        <div class="flip-header">
-          <div class="flip-name">THE VENTURE GAZETTE</div>
-          <div class="flip-date">23 SEPTEMBER 2026 • SPECIAL EDITION</div>
-        </div>
-        <div class="flip-headline">TODAY'S NEWS.<br>TOMORROW'S VENTURE.</div>
-        <div class="flip-subhead">Where headlines become business ideas</div>
-        <div class="flip-divider"></div>
-        <div class="flip-body">
-          <div class="flip-line" style="width:95%"></div>
-          <div class="flip-line" style="width:80%"></div>
-          <div class="flip-line" style="width:90%"></div>
-          <div class="flip-line" style="width:70%"></div>
-          <div class="flip-line" style="width:85%"></div>
-          <div class="flip-divider"></div>
-          <div class="flip-line" style="width:92%"></div>
-          <div class="flip-line" style="width:65%"></div>
-          <div class="flip-line" style="width:88%"></div>
-          <div class="flip-line" style="width:75%"></div>
-        </div>
+    <div class="newspaper-cover">
+      <div class="cover-header">
+        <div class="cover-name">THE VENTURE GAZETTE</div>
+        <div class="cover-date">23 SEPTEMBER 2026 • SPECIAL EDITION</div>
       </div>
-      <div class="flip-page flip-back">
-        <div class="flip-body" style="margin-top:20px">
-          <div class="flip-line" style="width:90%"></div>
-          <div class="flip-line" style="width:75%"></div>
-          <div class="flip-line" style="width:85%"></div>
-          <div class="flip-line" style="width:60%"></div>
-          <div class="flip-line" style="width:92%"></div>
-          <div class="flip-line" style="width:70%"></div>
-        </div>
+      <div class="cover-headline">TODAY'S NEWS.<br>TOMORROW'S VENTURE.</div>
+      <div class="cover-text-lines">
+        <div class="cover-line" style="width:100%"></div>
+        <div class="cover-line" style="width:95%"></div>
+        <div class="cover-line" style="width:85%"></div>
+        <div class="cover-line" style="width:90%"></div>
+        <div class="cover-line" style="width:70%"></div>
+        <div class="cover-line" style="width:98%"></div>
+        <div class="cover-line" style="width:80%"></div>
       </div>
     </div>
   </div>
