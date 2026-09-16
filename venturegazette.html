@@ -288,6 +288,45 @@
     .footer-quote p { font-size: 1.6rem; color: #E6E1D1; text-shadow: 2px 2px 0 #000; margin-bottom: 0.5rem; }
     .footer-quote .accent { color: #E8C84A; }
 
+    /* ========== ATMOSPHERIC ANIMATIONS ========== */
+    .vintage-pulse {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(circle at center, transparent 30%, rgba(232, 200, 74, 0.05) 70%, rgba(232, 200, 74, 0.12) 100%);
+      animation: pulseVintage 4s ease-in-out infinite alternate;
+    }
+    @keyframes pulseVintage {
+      0% { opacity: 0.2; }
+      100% { opacity: 1; }
+    }
+
+    .ember-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .ember {
+      position: absolute;
+      background: #FF6A1A;
+      border-radius: 50%;
+      opacity: 0;
+      animation: floatEmber linear infinite;
+    }
+
+    @keyframes floatEmber {
+      0% { transform: translateY(110vh) translateX(0) scale(0); opacity: 0; }
+      20% { opacity: 0.7; box-shadow: 0 0 10px currentColor; }
+      50% { transform: translateY(50vh) translateX(20px) scale(1.2); }
+      80% { opacity: 0.2; }
+      100% { transform: translateY(-10vh) translateX(-20px) scale(0.5); opacity: 0; }
+    }
+
     @media (max-width: 768px) {
       .page-content { padding: 1.5rem 0.8rem 3rem; }
       .skills-grid { grid-template-columns: 1fr; }
@@ -325,6 +364,19 @@
   </div>
 
   <div class="page-overlay"></div>
+  <div class="vintage-pulse"></div>
+
+  <!-- FLOATING GLOWING EMBERS -->
+  <div class="ember-overlay">
+    <div class="ember" style="left: 12%; width: 5px; height: 5px; animation-duration: 14s; animation-delay: 2s; color: #E8C84A; background: #E8C84A;"></div>
+    <div class="ember" style="left: 30%; width: 4px; height: 4px; animation-duration: 18s; animation-delay: 0s; color: #FF6A1A;"></div>
+    <div class="ember" style="left: 45%; width: 6px; height: 6px; animation-duration: 12s; animation-delay: 4s; color: #E8C84A; background: #E8C84A;"></div>
+    <div class="ember" style="left: 65%; width: 3px; height: 3px; animation-duration: 15s; animation-delay: 1s; color: #FF6A1A;"></div>
+    <div class="ember" style="left: 80%; width: 5px; height: 5px; animation-duration: 20s; animation-delay: 5s; color: #E8C84A; background: #E8C84A;"></div>
+    <div class="ember" style="left: 20%; width: 3px; height: 3px; animation-duration: 16s; animation-delay: 6s; color: #FF6A1A;"></div>
+    <div class="ember" style="left: 55%; width: 4px; height: 4px; animation-duration: 11s; animation-delay: 3s; color: #E8C84A; background: #E8C84A;"></div>
+    <div class="ember" style="left: 88%; width: 5px; height: 5px; animation-duration: 17s; animation-delay: 2.5s; color: #FF6A1A;"></div>
+  </div>
 
   <!-- NEWS TICKER -->
   <div class="news-ticker">
