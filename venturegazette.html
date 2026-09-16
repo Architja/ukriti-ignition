@@ -36,7 +36,6 @@
       z-index: 999;
     }
 
-    /* Dark overlay */
     .page-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -46,7 +45,87 @@
       pointer-events: none;
     }
 
-    /* ========== FLOATING NEWSPAPER ANIMATIONS ========== */
+    /* ========== NEWSPAPER ENTRY ANIMATION ========== */
+    .newspaper-intro {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #07090A;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: introFadeOut 0.6s 2.5s ease forwards;
+    }
+
+    .intro-paper {
+      width: 280px;
+      height: 380px;
+      background: #F5F0E0;
+      border: 3px solid #8B7355;
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
+      padding: 20px;
+      transform-origin: center center;
+      animation: introSpin 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      font-family: 'VT323', monospace;
+      color: #1A1A1A;
+    }
+
+    .intro-paper-header {
+      text-align: center;
+      border-bottom: 3px solid #333;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .intro-paper-name {
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+    }
+
+    .intro-paper-date {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .intro-paper-headline {
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 12px 0;
+      line-height: 1.2;
+    }
+
+    .intro-paper-body {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .intro-line {
+      height: 3px;
+      background: #AAA;
+      border-radius: 1px;
+    }
+
+    @keyframes introSpin {
+      0% { transform: scale(0.1) rotateY(0deg) rotateZ(0deg); opacity: 0; }
+      15% { opacity: 1; }
+      30% { transform: scale(0.6) rotateY(360deg) rotateZ(10deg); }
+      50% { transform: scale(0.9) rotateY(720deg) rotateZ(-5deg); }
+      70% { transform: scale(1.1) rotateY(900deg) rotateZ(3deg); }
+      85% { transform: scale(1.05) rotateY(1020deg) rotateZ(-1deg); }
+      100% { transform: scale(1) rotateY(1080deg) rotateZ(0deg); }
+    }
+
+    @keyframes introFadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; visibility: hidden; }
+    }
+
+    /* ========== 3 MINI FLOATING NEWSPAPERS ========== */
     .floating-papers {
       position: fixed;
       top: 0; left: 0;
@@ -56,151 +135,103 @@
       overflow: hidden;
     }
 
-    .paper {
+    .mini-paper {
       position: absolute;
-      font-family: 'VT323', monospace;
+      width: 70px;
+      height: 50px;
       background: #F5F0E0;
-      color: #1A1A1A;
       border: 2px solid #8B7355;
-      box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
-      padding: 6px 8px;
-      transform-origin: center center;
-      opacity: 0;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+      padding: 4px 6px;
+      font-family: 'VT323', monospace;
+      color: #333;
+      transform-style: preserve-3d;
+      perspective: 400px;
     }
 
-    .paper-headline {
-      font-size: 0.7rem;
+    .mini-headline {
+      font-size: 0.55rem;
       font-weight: bold;
       border-bottom: 1px solid #8B7355;
-      padding-bottom: 2px;
-      margin-bottom: 3px;
-      color: #333;
+      padding-bottom: 1px;
+      margin-bottom: 2px;
       white-space: nowrap;
+      overflow: hidden;
     }
 
-    .paper-lines {
+    .mini-lines {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
 
-    .paper-line {
-      height: 2px;
-      background: #999;
-      border-radius: 1px;
+    .mini-line {
+      height: 1.5px;
+      background: #AAA;
     }
 
-    /* Paper 1 - Top Left - Gentle float + page turn */
-    .paper-1 {
-      top: 8%; left: 3%;
-      width: 80px;
-      animation: floatPaper1 8s ease-in-out infinite, pageTurn 6s ease-in-out infinite;
-      animation-delay: 0s, 2s;
+    /* Paper 1 — Top left, continuous page turn */
+    .mini-paper-1 {
+      top: 10%; left: 3%;
+      animation: continuousTurn1 4s ease-in-out infinite, gentleDrift1 8s ease-in-out infinite;
     }
 
-    /* Paper 2 - Top Right - Drift down + flutter */
-    .paper-2 {
-      top: 12%; right: 4%;
-      width: 70px;
-      animation: floatPaper2 10s ease-in-out infinite, flutter 4s ease-in-out infinite;
-      animation-delay: 1s, 0s;
+    /* Paper 2 — Bottom right, continuous page turn */
+    .mini-paper-2 {
+      bottom: 15%; right: 3%;
+      width: 65px; height: 45px;
+      animation: continuousTurn2 5s ease-in-out infinite, gentleDrift2 9s ease-in-out infinite;
+      animation-delay: 1.5s, 0s;
     }
 
-    /* Paper 3 - Bottom Left - Sway + page flip */
-    .paper-3 {
-      bottom: 15%; left: 2%;
-      width: 90px;
-      animation: floatPaper3 9s ease-in-out infinite, pageFlip 7s ease-in-out infinite;
-      animation-delay: 3s, 1s;
+    /* Paper 3 — Bottom left, continuous page turn */
+    .mini-paper-3 {
+      bottom: 25%; left: 2%;
+      width: 60px; height: 42px;
+      animation: continuousTurn3 3.5s ease-in-out infinite, gentleDrift3 7s ease-in-out infinite;
+      animation-delay: 0.8s, 2s;
     }
 
-    /* Paper 4 - Bottom Right - Rotate float */
-    .paper-4 {
-      bottom: 20%; right: 3%;
-      width: 75px;
-      animation: floatPaper4 11s ease-in-out infinite, pageTurn 8s ease-in-out infinite;
-      animation-delay: 2s, 4s;
+    /* Continuous page turning animations */
+    @keyframes continuousTurn1 {
+      0% { transform: perspective(400px) rotateY(0deg); opacity: 0.7; }
+      25% { transform: perspective(400px) rotateY(-35deg) scale(1.03); opacity: 0.85; }
+      50% { transform: perspective(400px) rotateY(0deg); opacity: 0.7; }
+      75% { transform: perspective(400px) rotateY(25deg) scale(1.02); opacity: 0.8; }
+      100% { transform: perspective(400px) rotateY(0deg); opacity: 0.7; }
     }
 
-    /* Paper 5 - Mid Left - Small ticker */
-    .paper-5 {
-      top: 45%; left: 1%;
-      width: 65px;
-      animation: floatPaper5 7s ease-in-out infinite, flutter 5s ease-in-out infinite;
-      animation-delay: 4s, 2s;
+    @keyframes continuousTurn2 {
+      0% { transform: perspective(400px) rotateX(0deg) rotateZ(3deg); opacity: 0.65; }
+      30% { transform: perspective(400px) rotateX(20deg) rotateZ(-2deg) scale(1.04); opacity: 0.8; }
+      60% { transform: perspective(400px) rotateX(-10deg) rotateZ(4deg); opacity: 0.7; }
+      100% { transform: perspective(400px) rotateX(0deg) rotateZ(3deg); opacity: 0.65; }
     }
 
-    /* Paper 6 - Mid Right */
-    .paper-6 {
-      top: 55%; right: 2%;
-      width: 72px;
-      animation: floatPaper6 9s ease-in-out infinite, pageFlip 6s ease-in-out infinite;
-      animation-delay: 1.5s, 3s;
+    @keyframes continuousTurn3 {
+      0% { transform: perspective(400px) rotateY(0deg) rotateZ(-4deg); opacity: 0.6; }
+      35% { transform: perspective(400px) rotateY(30deg) rotateZ(2deg) scale(1.05); opacity: 0.8; }
+      65% { transform: perspective(400px) rotateY(-15deg) rotateZ(-3deg); opacity: 0.7; }
+      100% { transform: perspective(400px) rotateY(0deg) rotateZ(-4deg); opacity: 0.6; }
     }
 
-    /* Float animations */
-    @keyframes floatPaper1 {
-      0%, 100% { transform: translate(0, 0) rotate(-5deg); opacity: 0.7; }
-      25% { transform: translate(8px, -15px) rotate(-2deg); opacity: 0.85; }
-      50% { transform: translate(3px, -25px) rotate(-8deg); opacity: 0.75; }
-      75% { transform: translate(-5px, -10px) rotate(-3deg); opacity: 0.8; }
+    /* Gentle drift animations */
+    @keyframes gentleDrift1 {
+      0%, 100% { margin-top: 0; margin-left: 0; }
+      50% { margin-top: -12px; margin-left: 6px; }
     }
 
-    @keyframes floatPaper2 {
-      0%, 100% { transform: translate(0, 0) rotate(4deg); opacity: 0.65; }
-      30% { transform: translate(-10px, 12px) rotate(8deg); opacity: 0.8; }
-      60% { transform: translate(-5px, 20px) rotate(2deg); opacity: 0.7; }
-      80% { transform: translate(5px, 8px) rotate(6deg); opacity: 0.75; }
+    @keyframes gentleDrift2 {
+      0%, 100% { margin-bottom: 0; margin-right: 0; }
+      50% { margin-bottom: 10px; margin-right: -8px; }
     }
 
-    @keyframes floatPaper3 {
-      0%, 100% { transform: translate(0, 0) rotate(3deg); opacity: 0.6; }
-      33% { transform: translate(12px, -8px) rotate(-2deg); opacity: 0.8; }
-      66% { transform: translate(6px, -18px) rotate(5deg); opacity: 0.7; }
+    @keyframes gentleDrift3 {
+      0%, 100% { margin-bottom: 0; margin-left: 0; }
+      50% { margin-bottom: -8px; margin-left: 10px; }
     }
 
-    @keyframes floatPaper4 {
-      0%, 100% { transform: translate(0, 0) rotate(-3deg); opacity: 0.65; }
-      40% { transform: translate(-8px, -12px) rotate(4deg); opacity: 0.8; }
-      70% { transform: translate(-12px, -5px) rotate(-6deg); opacity: 0.7; }
-    }
-
-    @keyframes floatPaper5 {
-      0%, 100% { transform: translate(0, 0) rotate(2deg); opacity: 0.55; }
-      50% { transform: translate(6px, -10px) rotate(-3deg); opacity: 0.75; }
-    }
-
-    @keyframes floatPaper6 {
-      0%, 100% { transform: translate(0, 0) rotate(-4deg); opacity: 0.6; }
-      35% { transform: translate(-6px, 8px) rotate(3deg); opacity: 0.8; }
-      70% { transform: translate(4px, -6px) rotate(-2deg); opacity: 0.65; }
-    }
-
-    /* Page turning effect - 3D perspective flip */
-    @keyframes pageTurn {
-      0%, 40%, 100% { transform: perspective(300px) rotateY(0deg); }
-      50% { transform: perspective(300px) rotateY(-25deg) scale(1.02); }
-      60% { transform: perspective(300px) rotateY(5deg); }
-    }
-
-    /* Page flip - like wind catching */
-    @keyframes pageFlip {
-      0%, 35%, 100% { transform: perspective(250px) rotateX(0deg) rotateZ(0deg); }
-      45% { transform: perspective(250px) rotateX(15deg) rotateZ(-3deg) scale(1.03); }
-      55% { transform: perspective(250px) rotateX(-5deg) rotateZ(2deg); }
-    }
-
-    /* Flutter - gentle wobble */
-    @keyframes flutter {
-      0%, 100% { transform: rotate(0deg); }
-      15% { transform: rotate(3deg) translateY(-2px); }
-      30% { transform: rotate(-2deg) translateY(1px); }
-      45% { transform: rotate(4deg) translateY(-3px); }
-      60% { transform: rotate(-1deg) translateY(2px); }
-      75% { transform: rotate(2deg) translateY(-1px); }
-    }
-
-    /* ========== NEWSPAPER HEADLINE TICKER ========== */
+    /* ========== NEWS TICKER ========== */
     .news-ticker {
       position: relative;
       z-index: 15;
@@ -218,7 +249,6 @@
       color: #E8C84A;
       padding: 0 12px;
       font-size: 1.2rem;
-      font-weight: bold;
       white-space: nowrap;
       height: 100%;
       display: flex;
@@ -259,7 +289,7 @@
       max-width: 800px;
       margin: 0 auto;
       padding: 3rem 2rem 5rem;
-      animation: fadeUp 0.8s ease forwards;
+      animation: fadeUp 0.8s 2.8s ease forwards;
       opacity: 0;
     }
 
@@ -268,7 +298,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Back button */
     .back-btn {
       display: inline-block;
       color: #E8C84A;
@@ -281,11 +310,7 @@
     }
     .back-btn:hover { transform: translateX(-4px); }
 
-    /* Title */
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
+    .header { text-align: center; margin-bottom: 3rem; }
 
     .title {
       font-size: clamp(3.5rem, 9vw, 6.5rem);
@@ -302,38 +327,22 @@
       text-shadow: 2px 2px 0 #000;
     }
 
-    /* Content panels */
     .pixel-panel {
       background: rgba(7, 9, 10, 0.85);
       border: 4px solid #E8C84A;
-      box-shadow: 
-        inset -3px -3px 0 rgba(0,0,0,0.4),
-        inset 3px 3px 0 rgba(232,200,74,0.15),
-        8px 8px 0 rgba(0,0,0,0.5);
+      box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(232,200,74,0.15), 8px 8px 0 rgba(0,0,0,0.5);
       padding: 2rem;
       margin-bottom: 2rem;
     }
 
-    .pixel-panel p {
-      font-size: 1.5rem;
-      line-height: 1.4;
-      margin-bottom: 1rem;
-      color: #C8C0B0;
-    }
+    .pixel-panel p { font-size: 1.5rem; line-height: 1.4; margin-bottom: 1rem; color: #C8C0B0; }
     .pixel-panel p:last-child { margin-bottom: 0; }
+    .pixel-panel strong { color: #E8C84A; }
 
-    .pixel-panel strong {
-      color: #E8C84A;
-    }
-
-    /* Journey Steps */
     .step-box {
       background: rgba(7, 9, 10, 0.85);
       border: 4px solid #35D6D0;
-      box-shadow: 
-        inset -3px -3px 0 rgba(0,0,0,0.4),
-        inset 3px 3px 0 rgba(53,214,208,0.15),
-        8px 8px 0 rgba(0,0,0,0.5);
+      box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(53,214,208,0.15), 8px 8px 0 rgba(0,0,0,0.5);
       padding: 1.5rem 2rem;
       margin-bottom: 1.5rem;
       position: relative;
@@ -349,89 +358,36 @@
       box-shadow: 3px 3px 0 #000;
     }
 
-    .step-title {
-      font-size: 2.2rem;
-      color: #35D6D0;
-      text-shadow: 2px 2px 0 #000;
-      margin-bottom: 0.5rem;
-    }
+    .step-title { font-size: 2.2rem; color: #35D6D0; text-shadow: 2px 2px 0 #000; margin-bottom: 0.5rem; }
+    .step-desc { font-size: 1.4rem; color: #C8C0B0; line-height: 1.3; }
 
-    .step-desc {
-      font-size: 1.4rem;
-      color: #C8C0B0;
-      line-height: 1.3;
-    }
-
-    /* Skills */
     .skills-panel {
       background: rgba(7, 9, 10, 0.85);
       border: 4px solid #FF6A1A;
-      box-shadow: 
-        inset -3px -3px 0 rgba(0,0,0,0.4),
-        inset 3px 3px 0 rgba(255,106,26,0.15),
-        8px 8px 0 rgba(0,0,0,0.5);
+      box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(255,106,26,0.15), 8px 8px 0 rgba(0,0,0,0.5);
       padding: 2rem;
       margin-bottom: 2rem;
     }
 
-    .skills-title {
-      font-size: 2rem;
-      color: #FF6A1A;
-      text-shadow: 2px 2px 0 #000;
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
+    .skills-title { font-size: 2rem; color: #FF6A1A; text-shadow: 2px 2px 0 #000; text-align: center; margin-bottom: 1.5rem; }
 
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem 2rem;
-    }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 2rem; }
 
-    .skill-item {
-      font-size: 1.4rem;
-      color: #C8C0B0;
-      padding: 0.3rem 0;
-    }
-    .skill-item::before {
-      content: "► ";
-      color: #E8C84A;
-    }
+    .skill-item { font-size: 1.4rem; color: #C8C0B0; padding: 0.3rem 0; }
+    .skill-item::before { content: "► "; color: #E8C84A; }
 
-    /* Footer */
-    .footer-quote {
-      text-align: center;
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 4px solid rgba(232,200,74,0.3);
-    }
+    .footer-quote { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 4px solid rgba(232,200,74,0.3); }
+    .footer-quote p { font-size: 1.6rem; color: #E6E1D1; text-shadow: 2px 2px 0 #000; margin-bottom: 0.5rem; }
+    .footer-quote .accent { color: #E8C84A; }
 
-    .footer-quote p {
-      font-size: 1.6rem;
-      color: #E6E1D1;
-      text-shadow: 2px 2px 0 #000;
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-quote .accent {
-      color: #E8C84A;
-    }
-
-    /* ========== RESPONSIVE ========== */
     @media (max-width: 768px) {
       .page-content { padding: 1.5rem 0.8rem 3rem; }
       .skills-grid { grid-template-columns: 1fr; }
       .pixel-panel, .step-box, .skills-panel { padding: 1rem; }
       .register-btn { padding: 0.8rem 1.5rem !important; font-size: 1.5rem !important; }
-
-      /* Hide side papers on mobile, keep corner ones smaller */
-      .paper-5, .paper-6 { display: none; }
-      .paper { transform: scale(0.8); }
-      .paper-1 { top: 5%; left: 1%; width: 60px; }
-      .paper-2 { top: 8%; right: 1%; width: 55px; }
-      .paper-3 { bottom: 10%; left: 1%; width: 65px; }
-      .paper-4 { bottom: 12%; right: 1%; width: 58px; }
-
+      .mini-paper-3 { display: none; }
+      .mini-paper { transform: scale(0.85); }
+      .intro-paper { width: 220px; height: 300px; }
       .news-ticker { height: 30px; }
       .ticker-label { font-size: 1rem; padding: 0 8px; }
       .ticker-item { font-size: 1.1rem; padding: 0 1.2rem; }
@@ -440,77 +396,65 @@
 </head>
 <body>
 
-  <div class="page-overlay"></div>
-
-  <!-- FLOATING ANIMATED NEWSPAPERS -->
-  <div class="floating-papers">
-    <!-- Paper 1 - Top Left -->
-    <div class="paper paper-1">
-      <div class="paper-headline">THE GAZETTE</div>
-      <div class="paper-lines">
-        <div class="paper-line" style="width:90%"></div>
-        <div class="paper-line" style="width:75%"></div>
-        <div class="paper-line" style="width:85%"></div>
-        <div class="paper-line" style="width:60%"></div>
+  <!-- NEWSPAPER ENTRY ANIMATION -->
+  <div class="newspaper-intro">
+    <div class="intro-paper">
+      <div class="intro-paper-header">
+        <div class="intro-paper-name">THE VENTURE GAZETTE</div>
+        <div class="intro-paper-date">23 SEPTEMBER 2026 • SPECIAL EDITION</div>
       </div>
-    </div>
-
-    <!-- Paper 2 - Top Right -->
-    <div class="paper paper-2">
-      <div class="paper-headline">EXTRA! EXTRA!</div>
-      <div class="paper-lines">
-        <div class="paper-line" style="width:80%"></div>
-        <div class="paper-line" style="width:95%"></div>
-        <div class="paper-line" style="width:70%"></div>
-      </div>
-    </div>
-
-    <!-- Paper 3 - Bottom Left -->
-    <div class="paper paper-3">
-      <div class="paper-headline">VENTURE DAILY</div>
-      <div class="paper-lines">
-        <div class="paper-line" style="width:85%"></div>
-        <div class="paper-line" style="width:90%"></div>
-        <div class="paper-line" style="width:65%"></div>
-        <div class="paper-line" style="width:80%"></div>
-        <div class="paper-line" style="width:50%"></div>
-      </div>
-    </div>
-
-    <!-- Paper 4 - Bottom Right -->
-    <div class="paper paper-4">
-      <div class="paper-headline">BIZ REPORT</div>
-      <div class="paper-lines">
-        <div class="paper-line" style="width:70%"></div>
-        <div class="paper-line" style="width:88%"></div>
-        <div class="paper-line" style="width:75%"></div>
-      </div>
-    </div>
-
-    <!-- Paper 5 - Mid Left -->
-    <div class="paper paper-5">
-      <div class="paper-headline">MARKET WATCH</div>
-      <div class="paper-lines">
-        <div class="paper-line" style="width:92%"></div>
-        <div class="paper-line" style="width:60%"></div>
-        <div class="paper-line" style="width:78%"></div>
-      </div>
-    </div>
-
-    <!-- Paper 6 - Mid Right -->
-    <div class="paper paper-6">
-      <div class="paper-headline">TREND ALERT</div>
-      <div class="paper-lines">
-        <div class="paper-line" style="width:82%"></div>
-        <div class="paper-line" style="width:68%"></div>
-        <div class="paper-line" style="width:90%"></div>
-        <div class="paper-line" style="width:55%"></div>
+      <div class="intro-paper-headline">TODAY'S NEWS.<br>TOMORROW'S VENTURE.</div>
+      <div class="intro-paper-body">
+        <div class="intro-line" style="width:95%"></div>
+        <div class="intro-line" style="width:80%"></div>
+        <div class="intro-line" style="width:90%"></div>
+        <div class="intro-line" style="width:70%"></div>
+        <div class="intro-line" style="width:85%"></div>
+        <div class="intro-line" style="width:60%"></div>
+        <div class="intro-line" style="width:92%"></div>
+        <div class="intro-line" style="width:75%"></div>
+        <div class="intro-line" style="width:88%"></div>
+        <div class="intro-line" style="width:65%"></div>
+        <div class="intro-line" style="width:90%"></div>
+        <div class="intro-line" style="width:50%"></div>
       </div>
     </div>
   </div>
 
-  <!-- SCROLLING NEWS TICKER -->
-  <div class="news-ticker">
+  <div class="page-overlay"></div>
+
+  <!-- 3 MINI FLOATING NEWSPAPERS — continuously turning -->
+  <div class="floating-papers">
+    <div class="mini-paper mini-paper-1">
+      <div class="mini-headline">THE GAZETTE</div>
+      <div class="mini-lines">
+        <div class="mini-line" style="width:90%"></div>
+        <div class="mini-line" style="width:70%"></div>
+        <div class="mini-line" style="width:85%"></div>
+      </div>
+    </div>
+
+    <div class="mini-paper mini-paper-2">
+      <div class="mini-headline">EXTRA EDITION</div>
+      <div class="mini-lines">
+        <div class="mini-line" style="width:80%"></div>
+        <div class="mini-line" style="width:95%"></div>
+        <div class="mini-line" style="width:65%"></div>
+      </div>
+    </div>
+
+    <div class="mini-paper mini-paper-3">
+      <div class="mini-headline">BIZ DAILY</div>
+      <div class="mini-lines">
+        <div class="mini-line" style="width:88%"></div>
+        <div class="mini-line" style="width:72%"></div>
+        <div class="mini-line" style="width:80%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWS TICKER -->
+  <div class="news-ticker" style="margin-top: 0;">
     <div class="ticker-label">BREAKING</div>
     <div class="ticker-scroll">
       <span class="ticker-item">MARKETS SHIFT AS NEW REGULATIONS HIT TECH SECTOR</span>
@@ -519,7 +463,6 @@
       <span class="ticker-item">GLOBAL SUPPLY CHAIN DISRUPTION CREATES OPPORTUNITIES</span>
       <span class="ticker-item">AI-POWERED SOLUTIONS DOMINATE INNOVATION AWARDS</span>
       <span class="ticker-item">SUSTAINABILITY VENTURES SEE 300% GROWTH IN DEMAND</span>
-      <!-- Duplicate for seamless loop -->
       <span class="ticker-item">MARKETS SHIFT AS NEW REGULATIONS HIT TECH SECTOR</span>
       <span class="ticker-item">STARTUP FUNDING REACHES ALL-TIME HIGH IN Q3 2026</span>
       <span class="ticker-item">CONSUMER BEHAVIOR CHANGES: GEN-Z DRIVES NEW TRENDS</span>
