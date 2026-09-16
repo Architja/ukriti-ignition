@@ -16,7 +16,6 @@
       font-family: 'VT323', monospace;
       min-height: 100vh;
       overflow-x: hidden;
-      /* Full pixel art desk as background */
       background-image: url('assets/images/gazette-bg.jpg');
       background-size: cover;
       background-position: center;
@@ -47,6 +46,213 @@
       pointer-events: none;
     }
 
+    /* ========== FLOATING NEWSPAPER ANIMATIONS ========== */
+    .floating-papers {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    .paper {
+      position: absolute;
+      font-family: 'VT323', monospace;
+      background: #F5F0E0;
+      color: #1A1A1A;
+      border: 2px solid #8B7355;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+      padding: 6px 8px;
+      transform-origin: center center;
+      opacity: 0;
+    }
+
+    .paper-headline {
+      font-size: 0.7rem;
+      font-weight: bold;
+      border-bottom: 1px solid #8B7355;
+      padding-bottom: 2px;
+      margin-bottom: 3px;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    .paper-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .paper-line {
+      height: 2px;
+      background: #999;
+      border-radius: 1px;
+    }
+
+    /* Paper 1 - Top Left - Gentle float + page turn */
+    .paper-1 {
+      top: 8%; left: 3%;
+      width: 80px;
+      animation: floatPaper1 8s ease-in-out infinite, pageTurn 6s ease-in-out infinite;
+      animation-delay: 0s, 2s;
+    }
+
+    /* Paper 2 - Top Right - Drift down + flutter */
+    .paper-2 {
+      top: 12%; right: 4%;
+      width: 70px;
+      animation: floatPaper2 10s ease-in-out infinite, flutter 4s ease-in-out infinite;
+      animation-delay: 1s, 0s;
+    }
+
+    /* Paper 3 - Bottom Left - Sway + page flip */
+    .paper-3 {
+      bottom: 15%; left: 2%;
+      width: 90px;
+      animation: floatPaper3 9s ease-in-out infinite, pageFlip 7s ease-in-out infinite;
+      animation-delay: 3s, 1s;
+    }
+
+    /* Paper 4 - Bottom Right - Rotate float */
+    .paper-4 {
+      bottom: 20%; right: 3%;
+      width: 75px;
+      animation: floatPaper4 11s ease-in-out infinite, pageTurn 8s ease-in-out infinite;
+      animation-delay: 2s, 4s;
+    }
+
+    /* Paper 5 - Mid Left - Small ticker */
+    .paper-5 {
+      top: 45%; left: 1%;
+      width: 65px;
+      animation: floatPaper5 7s ease-in-out infinite, flutter 5s ease-in-out infinite;
+      animation-delay: 4s, 2s;
+    }
+
+    /* Paper 6 - Mid Right */
+    .paper-6 {
+      top: 55%; right: 2%;
+      width: 72px;
+      animation: floatPaper6 9s ease-in-out infinite, pageFlip 6s ease-in-out infinite;
+      animation-delay: 1.5s, 3s;
+    }
+
+    /* Float animations */
+    @keyframes floatPaper1 {
+      0%, 100% { transform: translate(0, 0) rotate(-5deg); opacity: 0.7; }
+      25% { transform: translate(8px, -15px) rotate(-2deg); opacity: 0.85; }
+      50% { transform: translate(3px, -25px) rotate(-8deg); opacity: 0.75; }
+      75% { transform: translate(-5px, -10px) rotate(-3deg); opacity: 0.8; }
+    }
+
+    @keyframes floatPaper2 {
+      0%, 100% { transform: translate(0, 0) rotate(4deg); opacity: 0.65; }
+      30% { transform: translate(-10px, 12px) rotate(8deg); opacity: 0.8; }
+      60% { transform: translate(-5px, 20px) rotate(2deg); opacity: 0.7; }
+      80% { transform: translate(5px, 8px) rotate(6deg); opacity: 0.75; }
+    }
+
+    @keyframes floatPaper3 {
+      0%, 100% { transform: translate(0, 0) rotate(3deg); opacity: 0.6; }
+      33% { transform: translate(12px, -8px) rotate(-2deg); opacity: 0.8; }
+      66% { transform: translate(6px, -18px) rotate(5deg); opacity: 0.7; }
+    }
+
+    @keyframes floatPaper4 {
+      0%, 100% { transform: translate(0, 0) rotate(-3deg); opacity: 0.65; }
+      40% { transform: translate(-8px, -12px) rotate(4deg); opacity: 0.8; }
+      70% { transform: translate(-12px, -5px) rotate(-6deg); opacity: 0.7; }
+    }
+
+    @keyframes floatPaper5 {
+      0%, 100% { transform: translate(0, 0) rotate(2deg); opacity: 0.55; }
+      50% { transform: translate(6px, -10px) rotate(-3deg); opacity: 0.75; }
+    }
+
+    @keyframes floatPaper6 {
+      0%, 100% { transform: translate(0, 0) rotate(-4deg); opacity: 0.6; }
+      35% { transform: translate(-6px, 8px) rotate(3deg); opacity: 0.8; }
+      70% { transform: translate(4px, -6px) rotate(-2deg); opacity: 0.65; }
+    }
+
+    /* Page turning effect - 3D perspective flip */
+    @keyframes pageTurn {
+      0%, 40%, 100% { transform: perspective(300px) rotateY(0deg); }
+      50% { transform: perspective(300px) rotateY(-25deg) scale(1.02); }
+      60% { transform: perspective(300px) rotateY(5deg); }
+    }
+
+    /* Page flip - like wind catching */
+    @keyframes pageFlip {
+      0%, 35%, 100% { transform: perspective(250px) rotateX(0deg) rotateZ(0deg); }
+      45% { transform: perspective(250px) rotateX(15deg) rotateZ(-3deg) scale(1.03); }
+      55% { transform: perspective(250px) rotateX(-5deg) rotateZ(2deg); }
+    }
+
+    /* Flutter - gentle wobble */
+    @keyframes flutter {
+      0%, 100% { transform: rotate(0deg); }
+      15% { transform: rotate(3deg) translateY(-2px); }
+      30% { transform: rotate(-2deg) translateY(1px); }
+      45% { transform: rotate(4deg) translateY(-3px); }
+      60% { transform: rotate(-1deg) translateY(2px); }
+      75% { transform: rotate(2deg) translateY(-1px); }
+    }
+
+    /* ========== NEWSPAPER HEADLINE TICKER ========== */
+    .news-ticker {
+      position: relative;
+      z-index: 15;
+      background: rgba(232, 200, 74, 0.95);
+      border-bottom: 4px solid #07090A;
+      border-top: 4px solid #07090A;
+      overflow: hidden;
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-label {
+      background: #07090A;
+      color: #E8C84A;
+      padding: 0 12px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      white-space: nowrap;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 2;
+      border-right: 3px solid #333;
+    }
+
+    .ticker-scroll {
+      display: flex;
+      animation: tickerScroll 30s linear infinite;
+      white-space: nowrap;
+    }
+
+    .ticker-item {
+      color: #07090A;
+      font-size: 1.3rem;
+      padding: 0 2rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ticker-item::before {
+      content: "◆ ";
+      color: #FF6A1A;
+    }
+
+    @keyframes tickerScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ========== MAIN CONTENT ========== */
     .page-content {
       position: relative;
       z-index: 10;
@@ -211,17 +417,117 @@
       color: #E8C84A;
     }
 
+    /* ========== RESPONSIVE ========== */
     @media (max-width: 768px) {
       .page-content { padding: 1.5rem 0.8rem 3rem; }
       .skills-grid { grid-template-columns: 1fr; }
       .pixel-panel, .step-box, .skills-panel { padding: 1rem; }
       .register-btn { padding: 0.8rem 1.5rem !important; font-size: 1.5rem !important; }
+
+      /* Hide side papers on mobile, keep corner ones smaller */
+      .paper-5, .paper-6 { display: none; }
+      .paper { transform: scale(0.8); }
+      .paper-1 { top: 5%; left: 1%; width: 60px; }
+      .paper-2 { top: 8%; right: 1%; width: 55px; }
+      .paper-3 { bottom: 10%; left: 1%; width: 65px; }
+      .paper-4 { bottom: 12%; right: 1%; width: 58px; }
+
+      .news-ticker { height: 30px; }
+      .ticker-label { font-size: 1rem; padding: 0 8px; }
+      .ticker-item { font-size: 1.1rem; padding: 0 1.2rem; }
     }
   </style>
 </head>
 <body>
 
   <div class="page-overlay"></div>
+
+  <!-- FLOATING ANIMATED NEWSPAPERS -->
+  <div class="floating-papers">
+    <!-- Paper 1 - Top Left -->
+    <div class="paper paper-1">
+      <div class="paper-headline">THE GAZETTE</div>
+      <div class="paper-lines">
+        <div class="paper-line" style="width:90%"></div>
+        <div class="paper-line" style="width:75%"></div>
+        <div class="paper-line" style="width:85%"></div>
+        <div class="paper-line" style="width:60%"></div>
+      </div>
+    </div>
+
+    <!-- Paper 2 - Top Right -->
+    <div class="paper paper-2">
+      <div class="paper-headline">EXTRA! EXTRA!</div>
+      <div class="paper-lines">
+        <div class="paper-line" style="width:80%"></div>
+        <div class="paper-line" style="width:95%"></div>
+        <div class="paper-line" style="width:70%"></div>
+      </div>
+    </div>
+
+    <!-- Paper 3 - Bottom Left -->
+    <div class="paper paper-3">
+      <div class="paper-headline">VENTURE DAILY</div>
+      <div class="paper-lines">
+        <div class="paper-line" style="width:85%"></div>
+        <div class="paper-line" style="width:90%"></div>
+        <div class="paper-line" style="width:65%"></div>
+        <div class="paper-line" style="width:80%"></div>
+        <div class="paper-line" style="width:50%"></div>
+      </div>
+    </div>
+
+    <!-- Paper 4 - Bottom Right -->
+    <div class="paper paper-4">
+      <div class="paper-headline">BIZ REPORT</div>
+      <div class="paper-lines">
+        <div class="paper-line" style="width:70%"></div>
+        <div class="paper-line" style="width:88%"></div>
+        <div class="paper-line" style="width:75%"></div>
+      </div>
+    </div>
+
+    <!-- Paper 5 - Mid Left -->
+    <div class="paper paper-5">
+      <div class="paper-headline">MARKET WATCH</div>
+      <div class="paper-lines">
+        <div class="paper-line" style="width:92%"></div>
+        <div class="paper-line" style="width:60%"></div>
+        <div class="paper-line" style="width:78%"></div>
+      </div>
+    </div>
+
+    <!-- Paper 6 - Mid Right -->
+    <div class="paper paper-6">
+      <div class="paper-headline">TREND ALERT</div>
+      <div class="paper-lines">
+        <div class="paper-line" style="width:82%"></div>
+        <div class="paper-line" style="width:68%"></div>
+        <div class="paper-line" style="width:90%"></div>
+        <div class="paper-line" style="width:55%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCROLLING NEWS TICKER -->
+  <div class="news-ticker">
+    <div class="ticker-label">BREAKING</div>
+    <div class="ticker-scroll">
+      <span class="ticker-item">MARKETS SHIFT AS NEW REGULATIONS HIT TECH SECTOR</span>
+      <span class="ticker-item">STARTUP FUNDING REACHES ALL-TIME HIGH IN Q3 2026</span>
+      <span class="ticker-item">CONSUMER BEHAVIOR CHANGES: GEN-Z DRIVES NEW TRENDS</span>
+      <span class="ticker-item">GLOBAL SUPPLY CHAIN DISRUPTION CREATES OPPORTUNITIES</span>
+      <span class="ticker-item">AI-POWERED SOLUTIONS DOMINATE INNOVATION AWARDS</span>
+      <span class="ticker-item">SUSTAINABILITY VENTURES SEE 300% GROWTH IN DEMAND</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="ticker-item">MARKETS SHIFT AS NEW REGULATIONS HIT TECH SECTOR</span>
+      <span class="ticker-item">STARTUP FUNDING REACHES ALL-TIME HIGH IN Q3 2026</span>
+      <span class="ticker-item">CONSUMER BEHAVIOR CHANGES: GEN-Z DRIVES NEW TRENDS</span>
+      <span class="ticker-item">GLOBAL SUPPLY CHAIN DISRUPTION CREATES OPPORTUNITIES</span>
+      <span class="ticker-item">AI-POWERED SOLUTIONS DOMINATE INNOVATION AWARDS</span>
+      <span class="ticker-item">SUSTAINABILITY VENTURES SEE 300% GROWTH IN DEMAND</span>
+    </div>
+  </div>
 
   <div class="page-content">
     <a href="index.html" class="back-btn">◄ BACK TO HUB</a>
