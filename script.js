@@ -51,18 +51,19 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = targetId; 
       }, 1500);
     });
-  });
+});
 
-  // Fix for Mobile/Safari Back Button (BFCache)
-  // When hitting 'Back', browsers restore the exact HTML state. We need to reset the animations.
-  window.addEventListener('pageshow', (event) => {
-    if (event.persisted) {
-      if (uiLayer) {
-        uiLayer.classList.remove('fade-out');
-      }
-      if (splitContainer) {
-        splitContainer.classList.remove('doors-open');
-      }
-    }
-  });
+// Fix for Mobile/Safari Back Button (BFCache)
+// When hitting the native 'Back' button, browsers restore the exact frozen HTML state.
+// This global listener forces the animations to reset the exact moment the page is shown again.
+window.addEventListener('pageshow', function (event) {
+  const uiLayerObj = document.querySelector('.ui-layer');
+  const splitContainerObj = document.querySelector('.split-container');
+  
+  if (uiLayerObj) {
+    uiLayerObj.classList.remove('fade-out');
+  }
+  if (splitContainerObj) {
+    splitContainerObj.classList.remove('doors-open');
+  }
 });
