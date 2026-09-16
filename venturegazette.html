@@ -45,7 +45,7 @@
       pointer-events: none;
     }
 
-    /* ========== NEWSPAPER ENTRY ANIMATION ========== */
+    /* ========== NEWSPAPER FLIP INTRO ========== */
     .newspaper-intro {
       position: fixed;
       top: 0; left: 0;
@@ -55,180 +55,136 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: introFadeOut 0.6s 2.5s ease forwards;
+      perspective: 1200px;
+      animation: introFadeOut 0.5s 3s ease forwards;
     }
 
-    .intro-paper {
-      width: 280px;
-      height: 380px;
-      background: #F5F0E0;
+    .flip-newspaper {
+      width: 300px;
+      height: 400px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: newspaperFlip 3s ease-in-out forwards;
+    }
+
+    .flip-page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
       border: 3px solid #8B7355;
-      box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
-      padding: 20px;
-      transform-origin: center center;
-      animation: introSpin 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+      padding: 18px;
       font-family: 'VT323', monospace;
       color: #1A1A1A;
     }
 
-    .intro-paper-header {
+    /* Front of newspaper */
+    .flip-front {
+      background: #F5F0E0;
+      z-index: 2;
+    }
+
+    /* Back of newspaper (seen during flip) */
+    .flip-back {
+      background: #E8E0D0;
+      transform: rotateY(180deg);
+    }
+
+    .flip-header {
       text-align: center;
-      border-bottom: 3px solid #333;
+      border-bottom: 3px double #333;
       padding-bottom: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
-    .intro-paper-name {
-      font-size: 1.8rem;
+    .flip-name {
+      font-size: 2rem;
       font-weight: bold;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
     }
 
-    .intro-paper-date {
-      font-size: 0.9rem;
+    .flip-date {
+      font-size: 0.85rem;
       color: #666;
+      margin-top: 2px;
     }
 
-    .intro-paper-headline {
-      font-size: 1.4rem;
+    .flip-headline {
+      font-size: 1.5rem;
       font-weight: bold;
       text-align: center;
-      margin: 12px 0;
+      margin: 15px 0;
       line-height: 1.2;
+      color: #222;
     }
 
-    .intro-paper-body {
+    .flip-subhead {
+      font-size: 1rem;
+      text-align: center;
+      color: #555;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .flip-body {
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      margin-top: 10px;
+      gap: 6px;
+      margin-top: 12px;
     }
 
-    .intro-line {
+    .flip-line {
       height: 3px;
-      background: #AAA;
+      background: #BBB;
       border-radius: 1px;
     }
 
-    @keyframes introSpin {
-      0% { transform: scale(0.1) rotateY(0deg) rotateZ(0deg); opacity: 0; }
-      15% { opacity: 1; }
-      30% { transform: scale(0.6) rotateY(360deg) rotateZ(10deg); }
-      50% { transform: scale(0.9) rotateY(720deg) rotateZ(-5deg); }
-      70% { transform: scale(1.1) rotateY(900deg) rotateZ(3deg); }
-      85% { transform: scale(1.05) rotateY(1020deg) rotateZ(-1deg); }
-      100% { transform: scale(1) rotateY(1080deg) rotateZ(0deg); }
+    .flip-divider {
+      height: 1px;
+      background: #999;
+      margin: 8px 0;
+    }
+
+    /* The flip animation: pages turning open */
+    @keyframes newspaperFlip {
+      0% {
+        transform: scale(0.3) rotateY(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+        transform: scale(0.5) rotateY(0deg);
+      }
+      30% {
+        transform: scale(0.8) rotateY(0deg);
+      }
+      /* First page flip */
+      45% {
+        transform: scale(0.9) rotateY(-160deg);
+      }
+      55% {
+        transform: scale(0.95) rotateY(-180deg);
+      }
+      /* Second page flip */
+      70% {
+        transform: scale(1) rotateY(-340deg);
+      }
+      80% {
+        transform: scale(1.02) rotateY(-360deg);
+      }
+      /* Settle */
+      90% {
+        transform: scale(1.01) rotateY(-360deg);
+      }
+      100% {
+        transform: scale(1) rotateY(-360deg);
+      }
     }
 
     @keyframes introFadeOut {
       0% { opacity: 1; }
       100% { opacity: 0; pointer-events: none; visibility: hidden; }
-    }
-
-    /* ========== 3 MINI FLOATING NEWSPAPERS ========== */
-    .floating-papers {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      pointer-events: none;
-      z-index: 5;
-      overflow: hidden;
-    }
-
-    .mini-paper {
-      position: absolute;
-      width: 70px;
-      height: 50px;
-      background: #F5F0E0;
-      border: 2px solid #8B7355;
-      box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
-      padding: 4px 6px;
-      font-family: 'VT323', monospace;
-      color: #333;
-      transform-style: preserve-3d;
-      perspective: 400px;
-    }
-
-    .mini-headline {
-      font-size: 0.55rem;
-      font-weight: bold;
-      border-bottom: 1px solid #8B7355;
-      padding-bottom: 1px;
-      margin-bottom: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-    .mini-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .mini-line {
-      height: 1.5px;
-      background: #AAA;
-    }
-
-    /* Paper 1 — Top left, continuous page turn */
-    .mini-paper-1 {
-      top: 10%; left: 3%;
-      animation: continuousTurn1 4s ease-in-out infinite, gentleDrift1 8s ease-in-out infinite;
-    }
-
-    /* Paper 2 — Bottom right, continuous page turn */
-    .mini-paper-2 {
-      bottom: 15%; right: 3%;
-      width: 65px; height: 45px;
-      animation: continuousTurn2 5s ease-in-out infinite, gentleDrift2 9s ease-in-out infinite;
-      animation-delay: 1.5s, 0s;
-    }
-
-    /* Paper 3 — Bottom left, continuous page turn */
-    .mini-paper-3 {
-      bottom: 25%; left: 2%;
-      width: 60px; height: 42px;
-      animation: continuousTurn3 3.5s ease-in-out infinite, gentleDrift3 7s ease-in-out infinite;
-      animation-delay: 0.8s, 2s;
-    }
-
-    /* Continuous page turning animations */
-    @keyframes continuousTurn1 {
-      0% { transform: perspective(400px) rotateY(0deg); opacity: 0.7; }
-      25% { transform: perspective(400px) rotateY(-35deg) scale(1.03); opacity: 0.85; }
-      50% { transform: perspective(400px) rotateY(0deg); opacity: 0.7; }
-      75% { transform: perspective(400px) rotateY(25deg) scale(1.02); opacity: 0.8; }
-      100% { transform: perspective(400px) rotateY(0deg); opacity: 0.7; }
-    }
-
-    @keyframes continuousTurn2 {
-      0% { transform: perspective(400px) rotateX(0deg) rotateZ(3deg); opacity: 0.65; }
-      30% { transform: perspective(400px) rotateX(20deg) rotateZ(-2deg) scale(1.04); opacity: 0.8; }
-      60% { transform: perspective(400px) rotateX(-10deg) rotateZ(4deg); opacity: 0.7; }
-      100% { transform: perspective(400px) rotateX(0deg) rotateZ(3deg); opacity: 0.65; }
-    }
-
-    @keyframes continuousTurn3 {
-      0% { transform: perspective(400px) rotateY(0deg) rotateZ(-4deg); opacity: 0.6; }
-      35% { transform: perspective(400px) rotateY(30deg) rotateZ(2deg) scale(1.05); opacity: 0.8; }
-      65% { transform: perspective(400px) rotateY(-15deg) rotateZ(-3deg); opacity: 0.7; }
-      100% { transform: perspective(400px) rotateY(0deg) rotateZ(-4deg); opacity: 0.6; }
-    }
-
-    /* Gentle drift animations */
-    @keyframes gentleDrift1 {
-      0%, 100% { margin-top: 0; margin-left: 0; }
-      50% { margin-top: -12px; margin-left: 6px; }
-    }
-
-    @keyframes gentleDrift2 {
-      0%, 100% { margin-bottom: 0; margin-right: 0; }
-      50% { margin-bottom: 10px; margin-right: -8px; }
-    }
-
-    @keyframes gentleDrift3 {
-      0%, 100% { margin-bottom: 0; margin-left: 0; }
-      50% { margin-bottom: -8px; margin-left: 10px; }
     }
 
     /* ========== NEWS TICKER ========== */
@@ -289,7 +245,7 @@
       max-width: 800px;
       margin: 0 auto;
       padding: 3rem 2rem 5rem;
-      animation: fadeUp 0.8s 2.8s ease forwards;
+      animation: fadeUp 0.8s 3.2s ease forwards;
       opacity: 0;
     }
 
@@ -370,9 +326,7 @@
     }
 
     .skills-title { font-size: 2rem; color: #FF6A1A; text-shadow: 2px 2px 0 #000; text-align: center; margin-bottom: 1.5rem; }
-
     .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 2rem; }
-
     .skill-item { font-size: 1.4rem; color: #C8C0B0; padding: 0.3rem 0; }
     .skill-item::before { content: "► "; color: #E8C84A; }
 
@@ -384,10 +338,9 @@
       .page-content { padding: 1.5rem 0.8rem 3rem; }
       .skills-grid { grid-template-columns: 1fr; }
       .pixel-panel, .step-box, .skills-panel { padding: 1rem; }
-      .register-btn { padding: 0.8rem 1.5rem !important; font-size: 1.5rem !important; }
-      .mini-paper-3 { display: none; }
-      .mini-paper { transform: scale(0.85); }
-      .intro-paper { width: 220px; height: 300px; }
+      .flip-newspaper { width: 230px; height: 310px; }
+      .flip-name { font-size: 1.5rem; }
+      .flip-headline { font-size: 1.2rem; }
       .news-ticker { height: 30px; }
       .ticker-label { font-size: 1rem; padding: 0 8px; }
       .ticker-item { font-size: 1.1rem; padding: 0 1.2rem; }
@@ -396,65 +349,47 @@
 </head>
 <body>
 
-  <!-- NEWSPAPER ENTRY ANIMATION -->
+  <!-- NEWSPAPER PAGE-FLIP INTRO -->
   <div class="newspaper-intro">
-    <div class="intro-paper">
-      <div class="intro-paper-header">
-        <div class="intro-paper-name">THE VENTURE GAZETTE</div>
-        <div class="intro-paper-date">23 SEPTEMBER 2026 • SPECIAL EDITION</div>
+    <div class="flip-newspaper">
+      <div class="flip-page flip-front">
+        <div class="flip-header">
+          <div class="flip-name">THE VENTURE GAZETTE</div>
+          <div class="flip-date">23 SEPTEMBER 2026 • SPECIAL EDITION</div>
+        </div>
+        <div class="flip-headline">TODAY'S NEWS.<br>TOMORROW'S VENTURE.</div>
+        <div class="flip-subhead">Where headlines become business ideas</div>
+        <div class="flip-divider"></div>
+        <div class="flip-body">
+          <div class="flip-line" style="width:95%"></div>
+          <div class="flip-line" style="width:80%"></div>
+          <div class="flip-line" style="width:90%"></div>
+          <div class="flip-line" style="width:70%"></div>
+          <div class="flip-line" style="width:85%"></div>
+          <div class="flip-divider"></div>
+          <div class="flip-line" style="width:92%"></div>
+          <div class="flip-line" style="width:65%"></div>
+          <div class="flip-line" style="width:88%"></div>
+          <div class="flip-line" style="width:75%"></div>
+        </div>
       </div>
-      <div class="intro-paper-headline">TODAY'S NEWS.<br>TOMORROW'S VENTURE.</div>
-      <div class="intro-paper-body">
-        <div class="intro-line" style="width:95%"></div>
-        <div class="intro-line" style="width:80%"></div>
-        <div class="intro-line" style="width:90%"></div>
-        <div class="intro-line" style="width:70%"></div>
-        <div class="intro-line" style="width:85%"></div>
-        <div class="intro-line" style="width:60%"></div>
-        <div class="intro-line" style="width:92%"></div>
-        <div class="intro-line" style="width:75%"></div>
-        <div class="intro-line" style="width:88%"></div>
-        <div class="intro-line" style="width:65%"></div>
-        <div class="intro-line" style="width:90%"></div>
-        <div class="intro-line" style="width:50%"></div>
+      <div class="flip-page flip-back">
+        <div class="flip-body" style="margin-top:20px">
+          <div class="flip-line" style="width:90%"></div>
+          <div class="flip-line" style="width:75%"></div>
+          <div class="flip-line" style="width:85%"></div>
+          <div class="flip-line" style="width:60%"></div>
+          <div class="flip-line" style="width:92%"></div>
+          <div class="flip-line" style="width:70%"></div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="page-overlay"></div>
 
-  <!-- 3 MINI FLOATING NEWSPAPERS — continuously turning -->
-  <div class="floating-papers">
-    <div class="mini-paper mini-paper-1">
-      <div class="mini-headline">THE GAZETTE</div>
-      <div class="mini-lines">
-        <div class="mini-line" style="width:90%"></div>
-        <div class="mini-line" style="width:70%"></div>
-        <div class="mini-line" style="width:85%"></div>
-      </div>
-    </div>
-
-    <div class="mini-paper mini-paper-2">
-      <div class="mini-headline">EXTRA EDITION</div>
-      <div class="mini-lines">
-        <div class="mini-line" style="width:80%"></div>
-        <div class="mini-line" style="width:95%"></div>
-        <div class="mini-line" style="width:65%"></div>
-      </div>
-    </div>
-
-    <div class="mini-paper mini-paper-3">
-      <div class="mini-headline">BIZ DAILY</div>
-      <div class="mini-lines">
-        <div class="mini-line" style="width:88%"></div>
-        <div class="mini-line" style="width:72%"></div>
-        <div class="mini-line" style="width:80%"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- NEWS TICKER -->
-  <div class="news-ticker" style="margin-top: 0;">
+  <div class="news-ticker">
     <div class="ticker-label">BREAKING</div>
     <div class="ticker-scroll">
       <span class="ticker-item">MARKETS SHIFT AS NEW REGULATIONS HIT TECH SECTOR</span>
