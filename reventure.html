@@ -252,11 +252,18 @@
     /* Responsive */
     @media (max-width: 768px) {
       body {
-        background-image: url('assets/images/reventure-bg-mobile.jpg') !important;
-        background-attachment: scroll !important;
-        background-size: 100% auto !important;
-        background-position: top center !important;
-        background-color: #07090A !important;
+        background-image: none !important;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background-image: url('assets/images/reventure-bg-mobile.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -2;
       }
       .page-content { padding: 1.5rem 0.8rem 3rem; }
       .skills-grid { grid-template-columns: 1fr; }
