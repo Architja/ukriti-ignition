@@ -72,10 +72,11 @@
       background: #F5F0E0;
       color: #1A1A1A;
       font-family: 'VT323', monospace;
-      /* Anchor at bottom left so we pull from top right */
-      transform-origin: bottom left;
-      box-shadow: inset -20px 20px 50px rgba(0,0,0,0.1), 30px 30px 50px rgba(0,0,0,0.8);
-      animation: curlPageDown 2.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+      /* The 'spine' is on the left edge */
+      transform-origin: left center;
+      border-left: 20px solid #C8C0B0;
+      box-shadow: inset 10px 0 20px rgba(0,0,0,0.1), 30px 0 50px rgba(0,0,0,0.8);
+      animation: openNewspaper 2.2s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -129,26 +130,10 @@
       border-radius: 2px;
     }
 
-    /* Soft diagonal curl from top right to bottom left */
-    @keyframes curlPageDown {
-      0% { 
-        transform: perspective(2500px) rotate3d(0, 0, 0, 0deg); 
-        border-top-right-radius: 0;
-        opacity: 1; 
-      }
-      20% {
-        border-top-right-radius: 20%;
-      }
-      40% {
-        opacity: 1;
-      }
-      100% { 
-        /* Pulls diagonally, creating a curling fall effect */
-        transform: perspective(2500px) rotate3d(-1, 1, 0, 120deg) translate3d(20vw, 30vh, 500px); 
-        border-top-right-radius: 60%;
-        opacity: 0; 
-        display: none; 
-      }
+    @keyframes openNewspaper {
+      0% { transform: rotateY(0deg); opacity: 1; }
+      50% { opacity: 1; }
+      100% { transform: rotateY(-110deg); opacity: 0; display: none; }
     }
 
     @keyframes fadeOutBg {
