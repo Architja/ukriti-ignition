@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RE:VENTURE | IGNITION 1.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #07090A;
+      color: #E6E1D1;
+      font-family: 'VT323', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+      /* Full pixel art desk as background */
+      background-image: url('assets/images/reventure-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      image-rendering: pixelated;
+    }
+
+    /* Scanline overlay on the whole page */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* Dark overlay so text is readable over the pixel art */
+    .page-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: radial-gradient(ellipse at center, rgba(7,9,10,0.3) 0%, rgba(7,9,10,0.85) 100%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      animation: fadeUp 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Back button */
+    .back-btn {
+      display: inline-block;
+      color: #35D6D0;
+      text-decoration: none;
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 2rem;
+      transition: transform 0.1s;
+    }
+    .back-btn:hover { transform: translateX(-4px); }
+
+    /* Title area */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .title {
+      font-size: clamp(4rem, 10vw, 7rem);
+      line-height: 0.9;
+      color: #D32F2F;
+      text-shadow: 4px 4px 0 #000;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.8rem;
+      color: #E8C84A;
+      text-shadow: 2px 2px 0 #000;
+    }
+
+    /* Content boxes styled like pixel-art game UI panels */
+    .pixel-panel {
+      background: rgba(7, 9, 10, 0.85);
+      border: 4px solid #35D6D0;
+      box-shadow: 
+        inset -3px -3px 0 rgba(0,0,0,0.4),
+        inset 3px 3px 0 rgba(53,214,208,0.2),
+        8px 8px 0 rgba(0,0,0,0.5);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .pixel-panel p {
+      font-size: 1.5rem;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      color: #C8C0B0;
+    }
+    .pixel-panel p:last-child { margin-bottom: 0; }
+
+    .pixel-panel strong {
+      color: #E8C84A;
+    }
+
+    /* Journey Steps */
+    .step-box {
+      background: rgba(7, 9, 10, 0.85);
+      border: 4px solid #E8C84A;
+      box-shadow: 
+        inset -3px -3px 0 rgba(0,0,0,0.4),
+        inset 3px 3px 0 rgba(232,200,74,0.15),
+        8px 8px 0 rgba(0,0,0,0.5);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .step-num {
+      position: absolute;
+      top: -14px; left: -14px;
+      background: #E8C84A;
+      color: #07090A;
+      font-size: 1.5rem;
+      padding: 2px 10px;
+      box-shadow: 3px 3px 0 #000;
+    }
+
+    .step-title {
+      font-size: 2.2rem;
+      color: #E8C84A;
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-desc {
+      font-size: 1.4rem;
+      color: #C8C0B0;
+      line-height: 1.3;
+    }
+
+    /* Skills grid */
+    .skills-panel {
+      background: rgba(7, 9, 10, 0.85);
+      border: 4px solid #FF6A1A;
+      box-shadow: 
+        inset -3px -3px 0 rgba(0,0,0,0.4),
+        inset 3px 3px 0 rgba(255,106,26,0.15),
+        8px 8px 0 rgba(0,0,0,0.5);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .skills-title {
+      font-size: 2rem;
+      color: #FF6A1A;
+      text-shadow: 2px 2px 0 #000;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem 2rem;
+    }
+
+    .skill-item {
+      font-size: 1.4rem;
+      color: #C8C0B0;
+      padding: 0.3rem 0;
+    }
+    .skill-item::before {
+      content: "► ";
+      color: #35D6D0;
+    }
+
+    /* Footer quote */
+    .footer-quote {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 4px solid rgba(53,214,208,0.3);
+    }
+
+    .footer-quote p {
+      font-size: 1.6rem;
+      color: #E6E1D1;
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-quote .accent {
+      color: #35D6D0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .page-content { padding: 1.5rem 0.8rem 3rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .framework-pillars { grid-template-columns: 1fr !important; }
+      .pixel-panel, .step-box, .skills-panel { padding: 1rem; }
+      .register-btn { padding: 0.8rem 1.5rem !important; font-size: 1.5rem !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-overlay"></div>
+
+  <div class="page-content">
+    <a href="index.html" class="back-btn">◄ BACK TO HUB</a>
+
+    <header class="header">
+      <h1 class="title">RE:VENTURE</h1>
+      <div class="subtitle">The Problem Changes. Your Strategy Must Too.</div>
+    </header>
+
+    <div class="pixel-panel">
+      <p>Step into the role of a <strong>strategic decision-maker</strong> for a real company facing a real business challenge. Your team will analyse the situation, identify the core problem, and build an initial strategy.</p>
+      <p>But the challenge doesn't stay the same.</p>
+      <p>In the next round, the market shifts. A new competitor, regulation, customer behaviour, supplier issue, technology, or strategic opportunity can change the situation. You must rethink your strategy, make difficult decisions, assess risks, and adapt.</p>
+      <p>Then comes the <strong>Deal Room</strong> — a controlled negotiation where you can form partnerships, exchange resources, make alliances, or choose to remain independent.</p>
+    </div>
+
+    <!-- Action Framework Infographic Block -->
+    <div style="background: rgba(7, 9, 10, 0.9); border: 4px solid #35D6D0; box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(53,214,208,0.2), 8px 8px 0 rgba(0,0,0,0.5); padding: 1.2rem; margin-bottom: 2rem;">
+      <div style="font-size: 1.6rem; color: #35D6D0; text-shadow: 2px 2px 0 #000; text-align: center; margin-bottom: 1rem; text-transform: uppercase;">STRATEGIC ACTION FRAMEWORK</div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.8rem; margin-bottom: 1.2rem;">
+        <div style="background: rgba(53,214,208,0.1); border: 2px solid #35D6D0; padding: 0.6rem; text-align: center; box-shadow: 2px 2px 0 #000;">
+          <div style="font-size: 1.8rem;">🔍</div>
+          <div style="font-size: 1.3rem; color: #E8C84A;">SOLVE</div>
+        </div>
+        <div style="background: rgba(53,214,208,0.1); border: 2px solid #35D6D0; padding: 0.6rem; text-align: center; box-shadow: 2px 2px 0 #000;">
+          <div style="font-size: 1.8rem;">📈</div>
+          <div style="font-size: 1.3rem; color: #E8C84A;">ADAPT</div>
+        </div>
+        <div style="background: rgba(53,214,208,0.1); border: 2px solid #35D6D0; padding: 0.6rem; text-align: center; box-shadow: 2px 2px 0 #000;">
+          <div style="font-size: 1.8rem;">🤝</div>
+          <div style="font-size: 1.3rem; color: #E8C84A;">NEGOTIATE</div>
+        </div>
+        <div style="background: rgba(53,214,208,0.1); border: 2px solid #35D6D0; padding: 0.6rem; text-align: center; box-shadow: 2px 2px 0 #000;">
+          <div style="font-size: 1.8rem;">🛡️</div>
+          <div style="font-size: 1.3rem; color: #E8C84A;">DEFEND</div>
+        </div>
+      </div>
+
+      <div class="framework-pillars" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+        <div style="border: 2px dashed rgba(53,214,208,0.5); padding: 0.8rem; background: rgba(0,0,0,0.3);">
+          <div style="font-size: 1.1rem; color: #35D6D0; margin-bottom: 0.2rem;">🌐 CORE FACTORS</div>
+          <div style="font-size: 1.2rem; color: #C8C0B0; line-height: 1.3;">Markets • People • Competition • Opportunities</div>
+        </div>
+        <div style="border: 2px dashed rgba(53,214,208,0.5); padding: 0.8rem; background: rgba(0,0,0,0.3);">
+          <div style="font-size: 1.1rem; color: #35D6D0; margin-bottom: 0.2rem;">🚀 STRATEGIC GOALS</div>
+          <div style="font-size: 1.2rem; color: #C8C0B0; line-height: 1.3;">Think • Strategise • Collaborate • Create Impact</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">01</div>
+      <h3 class="step-title">THE REAL PROBLEM</h3>
+      <p class="step-desc">Understand the company, diagnose the problem, and build your initial strategy.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">02</div>
+      <h3 class="step-title">THE MARKET SHIFTS</h3>
+      <p class="step-desc">A new challenge changes the game. Adapt, negotiate, assess your options, and rethink your strategy.</p>
+    </div>
+
+    <div class="step-box">
+      <div class="step-num">03</div>
+      <h3 class="step-title">THE VENTURE PITCH</h3>
+      <p class="step-desc">Present your final strategy, explain your decisions, and defend them before the judges.</p>
+    </div>
+
+    <div class="skills-panel">
+      <h2 class="skills-title">EVALUATION METRICS</h2>
+      <div class="skills-grid">
+        <div class="skill-item">Problem-solving</div>
+        <div class="skill-item">Strategic Thinking</div>
+        <div class="skill-item">Adaptability</div>
+        <div class="skill-item">Negotiation</div>
+        <div class="skill-item">Risk Assessment</div>
+        <div class="skill-item">Decision-making</div>
+        <div class="skill-item">Pitching</div>
+      </div>
+    </div>
+
+    <div class="footer-quote">
+      <p>RE:VENTURE is not about finding one perfect answer.</p>
+      <p class="accent">It's about knowing what to do when the answer changes.</p>
+    </div>
+
+    <div style="text-align:center; margin-top:3rem;">
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScLtWP-e8sNjuqlzDMZjwMYVuv-nVF5zEDAC7_CtkMIWanATg/viewform" target="_blank" style="display:inline-block; font-family:'VT323',monospace; font-size:2rem; color:#07090A; background:#35D6D0; padding:0.8rem 3rem; text-decoration:none; text-transform:uppercase; letter-spacing:0.1em; border:4px solid #07090A; box-shadow:inset -3px -3px 0 rgba(0,0,0,0.3), inset 3px 3px 0 rgba(255,255,255,0.3), 6px 6px 0 #000; transition:transform 0.1s;">REGISTER NOW ►</a>
+    </div>
+  </div>
+
+</body>
+</html>
