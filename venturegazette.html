@@ -329,7 +329,10 @@
 
     @media (max-width: 768px) {
       body {
-        background-image: url('assets/images/gazette-bg-mobile.jpg');
+        background-image: url('assets/images/gazette-bg-mobile.jpg') !important;
+        background-attachment: scroll !important; /* Fixes mobile zoom bug */
+        background-size: cover !important;
+        background-position: top center !important;
       }
       .page-content { padding: 1.5rem 0.8rem 3rem; }
       .skills-grid { grid-template-columns: 1fr; }
